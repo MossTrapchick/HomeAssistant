@@ -1,5 +1,6 @@
 [
-  "Текущая дата",
-  "Текущее время",
-  "День недели"
+  "Current Date",
+  "Current Time",
+  "Day Of Week",
+  "OpenUrl *url*"
 ]

@@ -1,7 +1,7 @@
 from piper import PiperVoice
 import numpy as np
 import sounddevice as sd
-from scipy import signal
+from scipy.io import wavfile
 
 class PiperTTS:
     def __init__(self, model_path="Piper/ru_RU-irina-medium.onnx",
@@ -13,6 +13,10 @@ class PiperTTS:
         x_old = np.linspace(0, 1, len(audio))
         x_new = np.linspace(0, 1, new_length)
         return np.interp(x_new, x_old, audio)
+    
+    def PlaySound(self, path):
+        samplerate, data = wavfile.read(path)
+        sd.play(data, samplerate)
 
     def say(self, text, pitch=1, speed = 1):
         chunks = list(self.voice.synthesize(text))
@@ -40,6 +44,5 @@ class PiperTTS:
         else:
             sr = original_sr
         
-
         sd.play(audio, sr)
         sd.wait()

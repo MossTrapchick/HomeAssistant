@@ -2,7 +2,7 @@ import requests, json
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 CloudModel = "deepseek-v3.1:671b-cloud"
-LocalModel = "hf.co/unsloth/DeepSeek-R1-0528-Qwen3-8B-GGUF:Q5_K_M"
+LocalModel = "hf.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF:Q5_K_M"
 
 class Llm:
     def __init__(self, presetPath = "preset.txt", commandsPath = "commands.json"):
@@ -12,7 +12,7 @@ class Llm:
             commands = json.load(json_file)
         self.dialog = [{
                 "role": "system",
-                "content": preset + 'Список команд: "' + '", "'.join(commands) + '"'
+                "content": preset + 'Command list: "' + '", "'.join(commands) + '"'
         }]
         print(self.dialog)
     
@@ -29,7 +29,8 @@ class Llm:
         response = requests.post(
             OLLAMA_URL,
             json={
-                "model": CloudModel if self.has_internet() else LocalModel,
+                #"model": CloudModel if self.has_internet() else LocalModel,
+                "model": LocalModel,
                 "messages": self.dialog,
                 "stream": False
             }

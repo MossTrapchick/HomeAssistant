@@ -7,10 +7,11 @@ from llm import Llm
 from functions import Functions
 
 tts = PiperTTS()
-llm = Llm()
 f = Functions()
+llm = Llm()
 
 voice = PiperVoice.load("Piper/ru_RU-irina-medium.onnx")
+signal = "detected.wav"
 
 handle = pvporcupine.create(
   access_key='Glmpe54BqlaSmAxo4poGyCAN3nr35DxFmaptKSjsa/tS+D6quTaefg==',
@@ -52,6 +53,7 @@ while True:
     keyword_index = handle.process(pcm)
     if keyword_index >= 0:
         print('detected')
+        tts.PlaySound(signal)
         for text in listen():
             print("Ты: " + text)
 
@@ -68,6 +70,7 @@ while True:
                 print("Ассистент: ", answer)
                 command = f.CheckForCommand(answer)
 
+            answer = answer.split("TEXT:", 1)[-1].strip()
             tts.say(answer, pitch=1.3,speed=1)
             break
         pass
