@@ -4,9 +4,11 @@ import pvporcupine
 from piper import PiperVoice
 from tts import PiperTTS
 from llm import Llm
+from functions import Functions
 
 tts = PiperTTS()
 llm = Llm()
+f = Functions()
 
 voice = PiperVoice.load("Piper/ru_RU-irina-medium.onnx")
 
@@ -51,11 +53,20 @@ while True:
     if keyword_index >= 0:
         print('detected')
         for text in listen():
-            print("ты:" + text)
+            print("Ты: " + text)
+
             if(text == 'пока ассистент'):
                 terminate()
+            
             answer = llm.ask_llm(text)
-            print("Ассистент:", answer)
+            print("Ассистент: ", answer)
+
+            command = f.CheckForCommand(answer)
+            if(command != None):
+                print("Результат команды: ", command)
+                answer = llm.ask_llm("Результат команды: " + command)
+                print("Ассистент: ", answer)
+
             tts.say(answer, pitch=1.3,speed=1)
             break
         pass
