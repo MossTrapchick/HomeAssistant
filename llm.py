@@ -12,7 +12,7 @@ class Llm:
             commands = json.load(json_file)
         self.dialog = [{
                 "role": "system",
-                "content": preset + ','.join(commands)
+                "content": preset + 'Список команд: "' + '", "'.join(commands) + '"'
         }]
         print(self.dialog)
     

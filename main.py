@@ -62,10 +62,11 @@ while True:
             print("Ассистент: ", answer)
 
             command = f.CheckForCommand(answer)
-            if(command != None):
+            while(command!=None):
                 print("Результат команды: ", command)
                 answer = llm.ask_llm("Результат команды: " + command)
                 print("Ассистент: ", answer)
+                command = f.CheckForCommand(answer)
 
             tts.say(answer, pitch=1.3,speed=1)
             break
